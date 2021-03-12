@@ -6,9 +6,9 @@ services:
     volumes:
       - ~:/home/ayb
     ipc: host
-    working_dir: $PWD
     environment:
       - PROJECT_ROOT=$PWD
+    working_dir: $PROJECT_ROOT
     command: sh
 
   notebook:
@@ -19,9 +19,9 @@ services:
     volumes:
       - ~:/home/ayb
     ipc: host
-    working_dir: $PWD
     environment:
       - PROJECT_ROOT=$PWD
+    working_dir: $PROJECT_ROOT/notebooks
     command: "jupyter notebook --ip=0.0.0.0 --port=8080 --no-browser --allow-root" 
 
   lab:
@@ -32,9 +32,9 @@ services:
     volumes:
       - ~:/home/ayb
     ipc: host
-    working_dir: $PWD
     environment:
       - PROJECT_ROOT=$PWD
+    working_dir: $PROJECT_ROOT/notebooks
     command: >
       sh -c "jupyter-lab --ip 0.0.0.0 --port 8888 --no-browser --allow-root --ServerApp.token='' --ServerApp.password=''"
 
@@ -46,8 +46,8 @@ services:
     volumes:
       - ~:/home/ayb
     ipc: host
-    working_dir: $PWD
     environment:
       - PROJECT_ROOT=$PWD
+    working_dir: $PROJECT_ROOT/logs
     command: >
       sh -c "tensorboard --logdir . --port 6006 --bind_all && "
