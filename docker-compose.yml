@@ -1,0 +1,18 @@
+version: "3"
+services:
+  server:
+    image: ayberkydn/deep-learning
+    ipc: host
+    ports:
+      - 8888:8888
+      - 6006:6006
+      - 8080:8080
+    volumes:
+      - ~:/home/ayb
+    ipc: host
+    working_dir: $PWD
+    environment:
+      - PROJECT_ROOT=$PWD
+    command: >
+      sh -c "tensorboard --logdir . --port 6006 --bind_all && 
+             jupyter-lab --ip 0.0.0.0 --port 8888 --no-browser --allow-root --ServerApp.token='' --ServerApp.password=''"
