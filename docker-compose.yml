@@ -6,9 +6,7 @@ services:
     volumes:
       - ~:/home/ayb
     ipc: host
-    environment:
-      PROJECT_ROOT: $${PWD}
-    working_dir: $PROJECT_ROOT
+    working_dir: $PWD
     command: sh
 
     #notebook:

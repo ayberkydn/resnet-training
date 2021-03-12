@@ -61,13 +61,13 @@ checkpoint = ModelCheckpoint(dirpath=ckp_path,
 model = LightningModule(model=Resnet50())
 
 
-trainer = pl.Trainer(
-    #limit_train_batches=0.015,
-    #limit_val_batches=0.02,
-    gpus=2,
-    accelerator='ddp',
-    callbacks=[gpu_stats, early_stopping, checkpoint],
-    logger = tb_logger)
-
-trainer.fit(model, training_loader, validation_loader)
+#trainer = pl.Trainer(
+#    #limit_train_batches=0.015,
+#    #limit_val_batches=0.02,
+#    gpus=2,
+#    accelerator='ddp',
+#    callbacks=[gpu_stats, early_stopping, checkpoint],
+#    logger = tb_logger)
+#
+#trainer.fit(model, training_loader, validation_loader)
 

@@ -1,9 +1,11 @@
+import torch
+import numpy as np
 
 def bn_relu_conv(in_channels, out_channels, kernel_size, stride, padding):
-    return nn.Sequential(
-        nn.BatchNorm2d(in_channels),
-        nn.ReLU(),
-        nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding)
+    return torch.nn.Sequential(
+        torch.nn.BatchNorm2d(in_channels),
+        torch.nn.ReLU(),
+        torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride, padding)
     )
 
 class ResidualBlock(torch.nn.Module):
@@ -51,7 +53,7 @@ class MultiResidualBlock(torch.nn.Module):
         #print('residual', self.residual_connection(x).shape)
         return self.layers(x)
 
-class Resnet50(nn.Module):
+class Resnet50(torch.nn.Module):
     def __init__(self, input_dim=3):
         super().__init__()
 
