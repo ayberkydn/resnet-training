@@ -1,5 +1,6 @@
 version: "3"
 services:
+
   shell:
     image: ayberkydn/deep-learning
     ipc: host
@@ -7,7 +8,7 @@ services:
       - ~:/home/ayb
     ipc: host
     working_dir: ${PWD}
-    command: sh
+    command: "/bin/bash"
 
   notebook:
     image: ayberkydn/deep-learning
@@ -40,4 +41,4 @@ services:
       - ~:/home/ayb
     ipc: host
     working_dir: ${PWD}
-    command: "tensorboard --logdir . --port 6006 --bind_all && "
+    command: "tensorboard --logdir . --port 6006 --bind_all"
