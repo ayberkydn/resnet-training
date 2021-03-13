@@ -1,6 +1,7 @@
 import pytorch_lightning as pl
 import torch
 import numpy as np
+from einops import rearrange, reduce, repeat
 
 class LightningModule(pl.LightningModule):
 

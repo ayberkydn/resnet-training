@@ -1,6 +1,5 @@
-import os, sys, pdb
-
-import argparse 
+import os, sys, pdb, pathlib
+import argparse
 
 import torch, torchvision
 from torch import nn
@@ -11,7 +10,6 @@ import kornia
 import pytorch_lightning as pl
 import torchfunc, torchlayers, torchsummary
 
-from einops import rearrange, reduce, repeat
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -20,12 +18,13 @@ from torchvision import transforms
 
 from models import Resnet50
 from MyLightningModule import LightningModule
+from data import ImagenetDataModule
 
 
-project_path = os.environ["PROJECT_ROOT"]
+project_path = pathlib.Path(os.path.realpath(__file__)).parent.parent
 
-
-
+log_path = os.path.join(project_path, 'logs')
+ckp_path = os.path.join(project_path, 'model_checkpoints')
 
 
 
@@ -41,16 +40,14 @@ early_stopping = EarlyStopping(monitor='validation_accuracy',
                                verbose=True, 
                                mode='max')
 
-log_path = os.path.join(project_path, 'logs')
-ckp_path = os.path.join(project_path, 'model-checkpoints')
 
-print(log_path)
 
 tb_logger = TensorBoardLogger(
     save_dir=log_path,
     name='my_MODEL'
 )
-checkpoint = ModelCheckpoint(dirpath=ckp_path,
+checkpoint = ModelCheckpoint(
+    dirpath=ckp_path,
     filename='epoch{epoch}model',
     monitor='validation_accuracy',
     mode='max'
@@ -58,16 +55,21 @@ checkpoint = ModelCheckpoint(dirpath=ckp_path,
 
 
 
+trainer = pl.Trainer(
+    #limit_train_batches=0.015,
+    #limit_val_batches=0.02,
+    progress_bar_refresh_rate=200,
+    gpus=1,
+    accelerator='ddp',
+    callbacks=[gpu_stats, early_stopping, checkpoint],
+    logger = tb_logger)
+
+
 model = LightningModule(model=Resnet50())
+datamodule = ImagenetDataModule(
+    path='/home/ayb/Documents/datasets/ILSVRC/Data/CLS-LOC',
+    batch_size=16
+)
 
-
-#trainer = pl.Trainer(
-#    #limit_train_batches=0.015,
-#    #limit_val_batches=0.02,
-#    gpus=2,
-#    accelerator='ddp',
-#    callbacks=[gpu_stats, early_stopping, checkpoint],
-#    logger = tb_logger)
-#
-#trainer.fit(model, training_loader, validation_loader)
+trainer.fit(model, datamodule)
 
