@@ -23,9 +23,9 @@ from data import ImagenetDataModule
 
 project_path = pathlib.Path(os.path.realpath(__file__)).parent.parent
 
-log_path = os.path.join(project_path, 'logs')
-ckp_path = os.path.join(project_path, 'model_checkpoints')
-
+log_path = os.path.join(project_path, "logs")
+ckp_path = os.path.join(project_path, "model-checkpoints")
+data_path = os.path.join(project_path, "data")
 
 
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
@@ -35,24 +35,18 @@ from pytorch_lightning.loggers import TensorBoardLogger
 
 
 gpu_stats = GPUStatsMonitor()
-early_stopping = EarlyStopping(monitor='validation_accuracy', 
-                               patience=3, 
-                               verbose=True, 
-                               mode='max')
-
-
-
-tb_logger = TensorBoardLogger(
-    save_dir=log_path,
-    name='my_MODEL'
+early_stopping = EarlyStopping(
+    monitor="validation_accuracy", patience=3, verbose=True, mode="max"
 )
+
+
+tb_logger = TensorBoardLogger(save_dir=log_path, name="my_MODEL")
 checkpoint = ModelCheckpoint(
     dirpath=ckp_path,
-    filename='epoch{epoch}model',
-    monitor='validation_accuracy',
-    mode='max'
+    filename="epoch{epoch}model",
+    monitor="validation_accuracy",
+    mode="max",
 )
-
 
 
 trainer = pl.Trainer(
@@ -62,14 +56,13 @@ trainer = pl.Trainer(
     gpus=[0],
     #accelerator='ddp',
     callbacks=[gpu_stats, early_stopping, checkpoint],
-    logger = tb_logger)
+    logger=tb_logger,
+)
 
 
 model = LightningModule(model=Resnet50())
 datamodule = ImagenetDataModule(
-    path='/home/ayb/Documents/datasets/ILSVRC/Data/CLS-LOC',
-    batch_size=16
+    path=os.path.join(data_path, "ILSVRC/Data/CLS-LOC"), batch_size=16
 )
 
 trainer.fit(model, datamodule)
-
