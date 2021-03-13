@@ -58,9 +58,9 @@ checkpoint = ModelCheckpoint(
 trainer = pl.Trainer(
     #limit_train_batches=0.015,
     #limit_val_batches=0.02,
-    progress_bar_refresh_rate=200,
-    gpus=1,
-    accelerator='ddp',
+    progress_bar_refresh_rate=100,
+    gpus=[0],
+    #accelerator='ddp',
     callbacks=[gpu_stats, early_stopping, checkpoint],
     logger = tb_logger)
 
