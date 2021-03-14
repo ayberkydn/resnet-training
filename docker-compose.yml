@@ -10,6 +10,17 @@ services:
     working_dir: ${PWD}
     command: "/bin/bash"
 
+  language-server:
+    image: ayberkydn/deep-learning
+    ipc: host
+    ports:
+      - 6006:6006
+    volumes:
+      - ~:/home/ayb
+    ipc: host
+    working_dir: ${PWD}
+    command: "python -mpyls -vv --log-file /tmp/lsp_python.log"
+
   notebook:
     image: ayberkydn/deep-learning
     ipc: host
