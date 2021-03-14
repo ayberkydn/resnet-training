@@ -6,20 +6,18 @@ services:
     ipc: host
     volumes:
       - ~:/home/ayb
-    ipc: host
     working_dir: ${PWD}
     command: "/bin/bash"
 
   language-server:
     image: ayberkydn/deep-learning
-    ipc: host
-    ports:
-      - 6006:6006
     volumes:
       - ~:/home/ayb
-    ipc: host
     working_dir: ${PWD}
     command: "python -mpyls -vv --log-file /tmp/lsp_python.log"
+    stdin_open: true
+    tty: false
+    
 
   notebook:
     image: ayberkydn/deep-learning
@@ -39,7 +37,6 @@ services:
       - 8888:8888
     volumes:
       - ~:/home/ayb
-    ipc: host
     working_dir: ${PWD}
     command: "jupyter-lab --ip 0.0.0.0 --port 8888 --no-browser --allow-root --ServerApp.token='' --ServerApp.password=''"
   
@@ -50,6 +47,5 @@ services:
       - 6006:6006
     volumes:
       - ~:/home/ayb
-    ipc: host
     working_dir: ${PWD}
     command: "tensorboard --logdir . --port 6006 --bind_all"
