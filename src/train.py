@@ -16,7 +16,7 @@ from data import ImagenetDataModule
 project_path = pathlib.Path(os.path.realpath(__file__)).parent.parent
 
 log_path = os.path.join(project_path, "logs")
-ckp_path = os.path.join(project_path, "model_checkpoints")
+ckp_path = os.path.join(project_path, "model-checkpoints")
 data_path = os.path.join(project_path, "data")
 
 

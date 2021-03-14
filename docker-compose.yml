@@ -26,7 +26,6 @@ services:
       - 8080:8080
     volumes:
       - ~:/home/ayb
-    ipc: host
     working_dir: ${PWD}
     command: "jupyter notebook --ip=0.0.0.0 --port=8080 --no-browser --allow-root" 
   
@@ -42,10 +41,9 @@ services:
   
   tensorboard:
     image: ayberkydn/deep-learning
-    ipc: host
     ports:
       - 6006:6006
     volumes:
       - ~:/home/ayb
     working_dir: ${PWD}
-    command: "tensorboard --logdir . --port 6006 --bind_all"
+    command: "tensorboard --logdir . --port 6006 --host '0.0.0.0'"
