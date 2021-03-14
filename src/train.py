@@ -21,8 +21,8 @@ ckp_path = os.path.join(project_path, "model_checkpoints")
 data_path = os.path.join(project_path, "data")
 
 
-@hydra.main(config_name='config')
-def my_app(cfg):
+@hydra.main(config_name='configs/config')
+def main(cfg):
     from pytorch_lightning.callbacks.early_stopping import EarlyStopping
     from pytorch_lightning.callbacks.gpu_stats_monitor import GPUStatsMonitor
     from pytorch_lightning.callbacks.model_checkpoint import ModelCheckpoint
@@ -62,3 +62,7 @@ def my_app(cfg):
     )
 
     trainer.fit(model, datamodule)
+
+
+if __name__ == '__main__':
+    main()
