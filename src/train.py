@@ -13,7 +13,6 @@ from models import Resnet50
 from MyLightningModule import LightningModule
 from data import ImagenetDataModule
 
-
 project_path = pathlib.Path(os.path.realpath(__file__)).parent.parent
 
 log_path = os.path.join(project_path, "logs")
