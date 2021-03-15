@@ -4,6 +4,9 @@ import os
 import sys
 import pdb
 import pathlib
+import torchlayers
+import torch
+
 
 
 import pytorch_lightning as pl
@@ -20,7 +23,7 @@ ckp_path = os.path.join(project_path, "model-checkpoints")
 data_path = os.path.join(project_path, "data")
 
 
-@hydra.main(config_name='configs/config')
+@hydra.main(config_name='../configs/config.yaml')
 def main(cfg):
     from pytorch_lightning.callbacks.early_stopping import EarlyStopping
     from pytorch_lightning.callbacks.gpu_stats_monitor import GPUStatsMonitor

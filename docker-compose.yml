@@ -14,7 +14,7 @@ services:
     volumes:
       - ~:/home/ayb
     working_dir: ${PWD}
-    command: "python -mpyls -vv --log-file /tmp/lsp_python.log"
+    command: "jedi-language-server"
     stdin_open: true
     tty: false
     
