@@ -1,6 +1,6 @@
 hparams:
   lr: 0.001
   batch_size: 32
-  early_stopping_patience: 32
+  early_stopping_patience: 10
 
 name: training

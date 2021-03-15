@@ -58,7 +58,7 @@ def main(cfg):
 
     model = LightningModule(model=Resnet50())
     datamodule = ImagenetDataModule(
-        path=os.path.join(data_path, "ILSVRC/Data/CLS-LOC"), batch_size=16
+        path=os.path.join(data_path, "ILSVRC/Data/CLS-LOC"), batch_size=cfg.batch_size
     )
 
     trainer.fit(model, datamodule)
