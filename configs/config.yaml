@@ -1,4 +1,6 @@
+hydra: 
 name: training
+datasets_path: /home/ayb/Documents/datasets/ILSVRC/Data/CLS-LOC
 hparams:
   lr: 0.001
   batch_size: 32
