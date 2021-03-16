@@ -1,4 +1,3 @@
-hydra: 
 name: training
 datasets_path: /home/ayb/Documents/datasets/ILSVRC/Data/CLS-LOC
 hparams:
