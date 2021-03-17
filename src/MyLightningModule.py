@@ -21,8 +21,11 @@ class LightningModule(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         x, y = batch
+        print("y", y.shape)
 
         scores = self.model(x)
+        print("scores", scores.shape)
+        
         predictions = torch.argmax(scores, dim=1)
 
         num_true = torch.sum(predictions == y)

@@ -14,9 +14,9 @@ import pytorch_lightning as pl
 
 from src.models.bottleneck_resnet18 import BottleneckResnet18
 
-from MyLightningModule import LightningModule
-from data import ImagenetDataModule
-from data import TinyImagenetDataModule
+from src.MyLightningModule import LightningModule
+from src.data import ImagenetDataModule
+from src.data import TinyImagenetDataModule
 
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 from pytorch_lightning.callbacks.gpu_stats_monitor import GPUStatsMonitor
@@ -57,13 +57,14 @@ def train(cfg):
         logger=logger,
     )
 
-    model = BottleneckResnet18()
 
     datamodule = TinyImagenetDataModule(
         path=cfg.data.dataset_path,
         batch_size=cfg.hparams.batch_size,
         num_workers_factor=cfg.data.num_workers_factor,
     )
+
+    model = BottleneckResnet18(in_channels=3, out_dim=200)
 
     pl_module= LightningModule(model=model, cfg=cfg)
 

@@ -1,30 +1,39 @@
 import torch
 import numpy as np
 import torchvision
+import einops
 
 
+class BottleneckLayer(torch.nn.Module):
+    def __init__(self, in_channels):
+        super().__init__()
+        self.in_channels = in_channels
+        self.bottleneck = torch.nn.Conv2d(in_channels, 1, 1, bias=False) 
+
+    def forward(self, x):
+        x = self.bottleneck(x)
+        x = torch.squeeze(x, 1)
+        x = einops.repeat(x, 'b h w -> b c h w', c=self.in_channels)
+        return x
 
 class BottleneckResnet18(torch.nn.Module):
-    def __init__(self, input_dim=3):
+    def __init__(self, in_channels, out_dim):
         super().__init__()
-        self.bottleneck = torch.Conv2d(3, 1, 1, bias=False)
+
+        self.bottleneck = BottleneckLayer(in_channels)
         self.resnet = torchvision.models.resnet18(pretrained=False)
+        self.resnet.fc = torch.nn.Linear(
+            self.resnet.fc.in_features,
+            out_dim,
+        )
+
     def forward(self, x):
 
-        x = self.pre_conv(x)
-        # print(x.shape)
-        x = self.conv1(x)
-        # print(x.shape)
-        x = self.conv2(x)
-        # print(x.shape)
-        x = self.conv3(x)
-        # print(x.shape)
-        x = self.conv4(x)
-
-        x = self.post_conv(x)
+        x = self.bottleneck(x)
+        x = self.resnet(x)
         return x
 
 if __name__ == "__main__":
     data = torch.randn(1, 3, 224, 224, device="cuda")
-    net = BottleneckResnet18().to("cuda")
+    net = BottleneckResnet18(3, 10).to("cuda")
     out = net(data)
