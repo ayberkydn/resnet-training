@@ -5,7 +5,7 @@ import numpy as np
 import os
 
 
-@hydra.main(config_name="configs/config")
+@hydra.main(config_path="configs", config_name="config")
 def my_app(cfg: DictConfig) -> None:
 
     print(hydra.utils.get_original_cwd())
