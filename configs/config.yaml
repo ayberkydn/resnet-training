@@ -1,6 +1,5 @@
-name: training
+name: bottleneck_training
 project_path: /home/ayb/resnet-training
-dataset_path: /home/ayb/Documents/datasets/ILSVRC/Data/CLS-LOC
 data:
   dataset_path: /home/ayb/Documents/datasets/TinyImageNet-200
   num_workers_factor: 3
