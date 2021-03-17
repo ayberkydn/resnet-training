@@ -12,8 +12,8 @@ trainer:
 hparams:
   lr: 0.001
   lr_scheduler:
-    factor: 0.3
+    factor: 0.5
     patience: 5
   batch_size: 16
-  early_stopping_patience: 10
+  early_stopping_patience: 15
 
