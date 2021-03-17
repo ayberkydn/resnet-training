@@ -7,7 +7,7 @@ data:
   num_workers_factor: 3
 
 trainer:
-  gpus: [0, 1]
+  gpus: [0]
 
 hparams:
   lr: 0.001
