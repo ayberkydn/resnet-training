@@ -7,6 +7,7 @@ import pathlib
 import torchlayers
 import torch
 import logging
+import torchvision
 
 
 import pytorch_lightning as pl
@@ -63,7 +64,8 @@ def main(cfg):
         logger=logger,
     )
 
-    model = LightningModule(model=Resnet50(), cfg=cfg)
+    
+    model = torchvision.models.resnet18(pretrained=False)
 
     datamodule = TinyImagenetDataModule(
         path=cfg.data.dataset_path,
@@ -71,7 +73,10 @@ def main(cfg):
         num_workers_factor=cfg.data.num_workers_factor,
     )
 
-    trainer.fit(model, datamodule)
+    pl_module= LightningModule(model=model, cfg=cfg)
+
+
+    trainer.fit(pl_module, datamodule)
 
 
 if __name__ == "__main__":

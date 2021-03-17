@@ -10,6 +10,7 @@ class TinyImagenetDataModule(pl.LightningDataModule):
         super().__init__()
         self.path = path
         self.batch_size = batch_size
+        self.num_workers_factor = num_workers_factor
 
         self.transform_train = transforms.Compose(
             [
@@ -24,7 +25,6 @@ class TinyImagenetDataModule(pl.LightningDataModule):
             ]
         )
 
-    def prepare_data(self):
         self.training_set = datasets.ImageFolder(
             root=os.path.join(self.path, "train"), transform=self.transform_train
         )
@@ -38,7 +38,7 @@ class TinyImagenetDataModule(pl.LightningDataModule):
             dataset=self.training_set,
             batch_size=self.batch_size,
             shuffle=True,
-            num_workers=num_workers_factor,
+            num_workers=self.num_workers_factor,
             pin_memory=True,
         )
 
@@ -47,7 +47,7 @@ class TinyImagenetDataModule(pl.LightningDataModule):
             dataset=self.validation_set,
             batch_size=self.batch_size * 2,
             shuffle=False,
-            num_workers=num_workers_factor * 2,
+            num_workers=self.num_workers_factor * 2,
             pin_memory=True,
         )
 
@@ -57,7 +57,7 @@ class ImagenetDataModule(pl.LightningDataModule):
         super().__init__()
         self.path = path
         self.batch_size = batch_size
-        self.num_workers_factor = num_workers_factor
+        self.num_workers_factor = self.num_workers_factor
 
         self.transform_train = transforms.Compose(
             [
@@ -81,7 +81,6 @@ class ImagenetDataModule(pl.LightningDataModule):
             ]
         )
 
-    def prepare_data(self):
         self.training_set = datasets.ImageFolder(
             root=os.path.join(self.path, "train"), transform=self.transform_train
         )
