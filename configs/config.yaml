@@ -14,6 +14,6 @@ hparams:
   lr_scheduler:
     factor: 0.3
     patience: 5
-  batch_size: 32
+  batch_size: 16
   early_stopping_patience: 10
 
