@@ -30,7 +30,7 @@ class TinyImagenetDataModule(pl.LightningDataModule):
         )
 
         self.validation_set = datasets.ImageFolder(
-            root=os.path.join(self.path, "val"), transform=self.transform_validation
+            root=os.path.join(self.path, "test"), transform=self.transform_validation
         )
 
     def train_dataloader(self):
