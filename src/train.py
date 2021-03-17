@@ -12,8 +12,8 @@ import torchvision
 
 import pytorch_lightning as pl
 
+from src.models.bottleneck_resnet18 import BottleneckResnet18
 
-from .my_models import Resnet50
 from MyLightningModule import LightningModule
 from data import ImagenetDataModule
 from data import TinyImagenetDataModule
@@ -57,7 +57,7 @@ def train(cfg):
         logger=logger,
     )
 
-    model = torchvision.models.resnet18(pretrained=False)
+    model = BottleneckResnet18()
 
     datamodule = TinyImagenetDataModule(
         path=cfg.data.dataset_path,
