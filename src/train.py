@@ -13,7 +13,7 @@ import torchvision
 import pytorch_lightning as pl
 
 
-from models import Resnet50
+from .my_models import Resnet50
 from MyLightningModule import LightningModule
 from data import ImagenetDataModule
 from data import TinyImagenetDataModule
@@ -24,16 +24,8 @@ from pytorch_lightning.callbacks.model_checkpoint import ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger
 
 
-logger = logging.getLogger(__name__)
+def train(cfg):
 
-
-@hydra.main(config_path="../configs", config_name="config")
-def main(cfg):
-    print(cfg.trainer.gpus)
-
-    log_path = os.path.join(cfg.project_path, "logs")
-    ckp_path = os.path.join(cfg.project_path, "model-checkpoints")
-    data_path = os.path.join(cfg.project_path, "data")
     callbacks = [
         GPUStatsMonitor(),
         EarlyStopping(
@@ -42,7 +34,7 @@ def main(cfg):
             patience=cfg.hparams.early_stopping_patience,
         ),
         ModelCheckpoint(
-            dirpath=ckp_path,
+            dirpath=os.path.join(cfg.project_path, "model-checkpoints"),
             filename="epoch{epoch}model",
             monitor="validation_accuracy",
             mode="max",
@@ -50,7 +42,7 @@ def main(cfg):
     ]
 
     logger = TensorBoardLogger(
-        save_dir=log_path,
+        save_dir=os.path.join(cfg.project_path, "logs"),
         name=cfg.name,
     )
 
@@ -65,7 +57,6 @@ def main(cfg):
         logger=logger,
     )
 
-
     model = torchvision.models.resnet18(pretrained=False)
 
     datamodule = TinyImagenetDataModule(
@@ -77,7 +68,3 @@ def main(cfg):
     pl_module= LightningModule(model=model, cfg=cfg)
 
     trainer.fit(pl_module, datamodule)
-
-
-if __name__ == "__main__":
-    main()
