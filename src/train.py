@@ -65,7 +65,7 @@ def main(cfg):
 
     model = LightningModule(model=Resnet50(), cfg=cfg)
 
-    datamodule = ImagenetDataModule(
+    datamodule = TinyImagenetDataModule(
         path=cfg.data.dataset_path,
         batch_size=cfg.hparams.batch_size,
         num_workers_factor=cfg.data.num_workers_factor,
