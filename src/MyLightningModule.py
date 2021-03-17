@@ -5,8 +5,9 @@ from einops import rearrange, reduce, repeat
 
 
 class LightningModule(pl.LightningModule):
-    def __init__(self, model, hparams=None):
+    def __init__(self, model, cfg):
         super().__init__()
+        self.cfg = cfg
         self.model = model
         self.loss = torch.nn.CrossEntropyLoss()
 
@@ -36,11 +37,11 @@ class LightningModule(pl.LightningModule):
         self.log("validation_accuracy", acc, prog_bar=True, logger=True)
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3)
+        optimizer = torch.optim.Adam(self.model.parameters(), lr=self.cfg.hparams.lr)
         scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
             optimizer,
-            factor=lr_scheduler_factor,
-            patience=2,
+            factor=self.cfg.hparams.lr_scheduler.factor,
+            patience=self.cfg.hparams.lr_scheduler.patience,
             verbose=True,
         )
         return {

@@ -1,7 +1,14 @@
 name: training
 project_path: /home/ayb/resnet-training
 dataset_path: /home/ayb/Documents/datasets/ILSVRC/Data/CLS-LOC
-num_workers_factor: 3
+data:
+  dataset_path: /home/ayb/Documents/datasets/TinyImageNet-200
+  data_shape: [224, 224]
+  num_workers_factor: 3
+
+trainer:
+  gpus: [0]
+
 hparams:
   lr: 0.001
   lr_scheduler:
