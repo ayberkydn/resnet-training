@@ -76,21 +76,6 @@ def main(cfg):
 
     pl_module= LightningModule(model=model, cfg=cfg)
 
-    # Run lr finder
-    lr_finder = trainer.tuner.lr_find(model, datamodule)
-
-    print("SUGGESTIN LR")
-    # Inspect results
-    suggested_lr = lr_finder.suggestion()
-    for n in range(50):
-        print(suggested_lr)
-    
-
-    # Overwrite lr and create new model
-    hparams.lr = suggested_lr
-    model = MyModelClass(hparams)
-
-
     trainer.fit(pl_module, datamodule)
 
 
