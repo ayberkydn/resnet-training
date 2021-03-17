@@ -3,17 +3,18 @@ import torch
 import numpy as np
 from einops import rearrange, reduce, repeat
 
+
 class LightningModule(pl.LightningModule):
 
     def __init__(self, model, hparams=None):
         super().__init__()
         self.model = model
         self.loss = torch.nn.CrossEntropyLoss()
-        
+
     def training_step(self, batch, batch_idx):
         x, y = batch
-    
-        scores = self.model(x)        
+
+        scores = self.model(x)
         loss = self.loss(scores, y)
         self.log("training_loss", loss, prog_bar=True, logger=True)
         return loss
@@ -29,7 +30,6 @@ class LightningModule(pl.LightningModule):
 
         return num_true.item(), num_false.item()
 
-
     def validation_epoch_end(self, validation_step_outputs):
         validation_step_outputs = np.array(validation_step_outputs)
         total = reduce(validation_step_outputs, "b tf -> tf", reduction=sum)
@@ -38,7 +38,8 @@ class LightningModule(pl.LightningModule):
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-3)
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.3, patience=2)
-        return {'optimizer': optimizer, 
-                'lr_scheduler': scheduler, 
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            optimizer, factor=0.3, patience=2)
+        return {'optimizer': optimizer,
+                'lr_scheduler': scheduler,
                 'monitor': 'training_loss'}
