@@ -6,6 +6,7 @@ import pdb
 import pathlib
 import torchlayers
 import torch
+import logging
 
 
 import pytorch_lightning as pl
@@ -15,20 +16,22 @@ from models import Resnet50
 from MyLightningModule import LightningModule
 from data import ImagenetDataModule
 
-project_path = pathlib.Path(os.path.realpath(__file__)).parent.parent
+from pytorch_lightning.callbacks.early_stopping import EarlyStopping
+from pytorch_lightning.callbacks.gpu_stats_monitor import GPUStatsMonitor
+from pytorch_lightning.callbacks.model_checkpoint import ModelCheckpoint
+from pytorch_lightning.loggers import TensorBoardLogger
 
-log_path = os.path.join(project_path, "logs")
-ckp_path = os.path.join(project_path, "model-checkpoints")
-data_path = os.path.join(project_path, "data")
+
+logger = logging.getLogger(__name__)
 
 
-@hydra.main(config_name="../configs/config.yaml")
+@hydra.main(config_path="../configs", config_name="config")
 def main(cfg):
-    from pytorch_lightning.callbacks.early_stopping import EarlyStopping
-    from pytorch_lightning.callbacks.gpu_stats_monitor import GPUStatsMonitor
-    from pytorch_lightning.callbacks.model_checkpoint import ModelCheckpoint
-    from pytorch_lightning.loggers import TensorBoardLogger
 
+    project_path = cfg.project_path
+    log_path = os.path.join(project_path, "logs")
+    ckp_path = os.path.join(project_path, "model-checkpoints")
+    data_path = os.path.join(project_path, "data")
     callbacks = [
         GPUStatsMonitor(),
         EarlyStopping(
@@ -44,7 +47,10 @@ def main(cfg):
         ),
     ]
 
-    logger = TensorBoardLogger(save_dir=log_path, name=cfg.name)
+    logger = TensorBoardLogger(
+        save_dir=log_path,
+        name=cfg.name,
+    )
 
     trainer = pl.Trainer(
         # limit_train_batches=0.015,
@@ -57,7 +63,12 @@ def main(cfg):
     )
 
     model = LightningModule(model=Resnet50())
-    datamodule = ImagenetDataModule(path=cfg.dataset_path, batch_size=cfg.batch_size)
+
+    datamodule = ImagenetDataModule(
+        path=cfg.dataset_path,
+        batch_size=cfg.hparams.batch_size,
+        num_workers_factor=cfg.num_workers_factor,
+    )
 
     trainer.fit(model, datamodule)
 

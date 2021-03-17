@@ -1,7 +1,13 @@
 name: training
-datasets_path: /home/ayb/Documents/datasets/ILSVRC/Data/CLS-LOC
+project_path: /home/ayb/resnet-training
+dataset_path: /home/ayb/Documents/datasets/ILSVRC/Data/CLS-LOC
+num_workers_factor: 3
 hparams:
   lr: 0.001
+  lr_scheduler:
+    factor: 0.3
+    patience: 5
   batch_size: 32
-  early_stopping_patience: 32
+  early_stopping_patience: 10
+
 
