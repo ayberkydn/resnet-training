@@ -8,7 +8,7 @@ class BottleneckLayer(torch.nn.Module):
     def __init__(self, in_channels):
         super().__init__()
         self.in_channels = in_channels
-        self.bottleneck = torch.nn.Conv2d(in_channels, 1, 1, bias=False) 
+        self.bottleneck = torch.nn.Conv2d(in_channels, 1, 1, bias=False)
 
     def forward(self, x):
         x = self.bottleneck(x)

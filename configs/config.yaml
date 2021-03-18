@@ -5,10 +5,10 @@ data:
   num_workers_factor: 4
 
 trainer:
-  gpus: [0]
+  gpus: [0, 1]
 
 hparams:
-  lr: 0.001
+  lr: 0.01
   lr_scheduler:
     factor: 0.5
     patience: 10
