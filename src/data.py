@@ -53,16 +53,17 @@ class TinyImagenetDataModule(pl.LightningDataModule):
 
 
 class ImagenetDataModule(pl.LightningDataModule):
-    def __init__(self, path, batch_size, num_workers_factor):
+    def __init__(self, path, batch_size, num_workers_factor, input_shape):
         super().__init__()
         self.path = path
         self.batch_size = batch_size
-        self.num_workers_factor = self.num_workers_factor
+        self.num_workers_factor = num_workers_factor
 
         self.transform_train = transforms.Compose(
             [
                 transforms.RandomResizedCrop(224),
                 transforms.RandomHorizontalFlip(),
+                transforms.Resize(input_shape),
                 transforms.ToTensor(),
                 transforms.Normalize(
                     mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
@@ -74,6 +75,7 @@ class ImagenetDataModule(pl.LightningDataModule):
             [
                 transforms.Resize(256),
                 transforms.CenterCrop(224),
+                transforms.Resize(input_shape),
                 transforms.ToTensor(),
                 transforms.Normalize(
                     mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
@@ -95,7 +97,7 @@ class ImagenetDataModule(pl.LightningDataModule):
             batch_size=self.batch_size,
             shuffle=True,
             num_workers=self.num_workers_factor,
-            pin_memory=True,
+            pin_memory=False,
         )
 
     def val_dataloader(self):
@@ -104,5 +106,5 @@ class ImagenetDataModule(pl.LightningDataModule):
             batch_size=self.batch_size * 2,
             shuffle=False,
             num_workers=self.num_workers_factor * 2,
-            pin_memory=True,
+            pin_memory=False,
         )
