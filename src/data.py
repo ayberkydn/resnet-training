@@ -84,11 +84,11 @@ class ImagenetDataModule(pl.LightningDataModule):
         )
 
         self.training_set = datasets.ImageFolder(
-            root=os.path.join(self.path, "train"), transform=self.transform_train
+            root=os.path.join(self.path, "Data", "CLS-LOC", "train"), transform=self.transform_train
         )
 
         self.validation_set = datasets.ImageFolder(
-            root=os.path.join(self.path, "val"), transform=self.transform_validation
+            root=os.path.join(self.path, "Data", "CLS-LOC", "val"), transform=self.transform_validation
         )
 
     def train_dataloader(self):

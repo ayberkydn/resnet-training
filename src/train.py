@@ -58,13 +58,14 @@ def train(cfg):
     )
 
 
-    datamodule = TinyImagenetDataModule(
+    datamodule = ImagenetDataModule(
         path=cfg.data.dataset_path,
         batch_size=cfg.hparams.batch_size,
         num_workers_factor=cfg.data.num_workers_factor,
+        input_shape=cfg.data.input_shape
     )
 
-    model = BottleneckResnet18(in_channels=3, out_dim=200)
+    model = BottleneckResnet18(in_channels=3, out_dim=1000)
 
     pl_module= LightningModule(model=model, cfg=cfg)
 

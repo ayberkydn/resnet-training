@@ -1,8 +1,9 @@
 name: bottleneck_training
 project_path: /home/ayb/resnet-training
 data:
-  dataset_path: /home/ayb/Documents/datasets/TinyImageNet-200
+  dataset_path: /home/ayb/Documents/datasets/ILSVRC
   num_workers_factor: 4
+  input_shape: [128, 128]
 
 trainer:
   gpus: [0, 1]
