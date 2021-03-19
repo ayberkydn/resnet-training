@@ -46,7 +46,6 @@ def train(cfg):
         name=cfg.name,
     )
 
-
     trainer = pl.Trainer(
         # limit_train_batches=0.015,
         # limit_val_batches=0.02,
@@ -57,7 +56,6 @@ def train(cfg):
         logger=logger,
     )
 
-
     datamodule = TinyImagenetDataModule(
         path=cfg.data.dataset_path,
         batch_size=cfg.hparams.batch_size,
@@ -66,6 +64,8 @@ def train(cfg):
 
     model = BottleneckResnet18(in_channels=3, out_dim=200)
 
-    pl_module= LightningModule(model=model, cfg=cfg)
+    pl_module = LightningModule(model=model, cfg=cfg)
 
-    trainer.fit(pl_module, datamodule)
+    trainer.fit(
+        pl_module,
+    )

@@ -72,11 +72,11 @@ class MultiResidualBlock(torch.nn.Module):
 
 
 class Resnet50(torch.nn.Module):
-    def __init__(self, input_dim=3):
+    def __init__(self, input_dim):
         super().__init__()
 
         self.pre_conv = torch.nn.Sequential(
-            bn_relu_conv(3, 64, 7, 2, 3), torch.nn.MaxPool2d(3, 2, 1)
+            bn_relu_conv(input_dim, 64, 7, 2, 3), torch.nn.MaxPool2d(3, 2, 1)
         )
         block1_channels = [64, 64, 256]
         block1_strides = [1, 1, 1]
@@ -156,6 +156,8 @@ class Resnet50(torch.nn.Module):
 
         x = self.post_conv(x)
         return x
+
+
 
 if __name__ == "__main__":
     data = torch.randn(1, 3, 224, 224, device="cuda")
