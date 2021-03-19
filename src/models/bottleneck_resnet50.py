@@ -16,12 +16,12 @@ class BottleneckLayer(torch.nn.Module):
         x = einops.repeat(x, 'b h w -> b c h w', c=self.in_channels)
         return x
 
-class BottleneckResnet18(torch.nn.Module):
+class BottleneckResnet50(torch.nn.Module):
     def __init__(self, in_channels, out_dim):
         super().__init__()
 
         self.bottleneck = BottleneckLayer(in_channels)
-        self.resnet = torchvision.models.resnet18(pretrained=False)
+        self.resnet = torchvision.models.resnet50(pretrained=False)
         self.resnet.fc = torch.nn.Linear(
             self.resnet.fc.in_features,
             out_dim,
@@ -35,5 +35,5 @@ class BottleneckResnet18(torch.nn.Module):
 
 if __name__ == "__main__":
     data = torch.randn(1, 3, 224, 224, device="cuda")
-    net = BottleneckResnet18(3, 10).to("cuda")
+    net = BottleneckResnet50(3, 10).to("cuda")
     out = net(data)

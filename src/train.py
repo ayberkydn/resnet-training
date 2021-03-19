@@ -12,7 +12,7 @@ import torchvision
 
 import pytorch_lightning as pl
 
-from src.models.bottleneck_resnet18 import BottleneckResnet18
+from src.models.bottleneck_resnet50 import BottleneckResnet50
 
 from src.MyLightningModule import LightningModule
 from src.data import ImagenetDataModule
@@ -62,10 +62,11 @@ def train(cfg):
         path=cfg.data.dataset_path,
         batch_size=cfg.hparams.batch_size,
         num_workers_factor=cfg.data.num_workers_factor,
-        input_shape=cfg.data.input_shape
+        input_shape=cfg.data.input_shape,
+        pin_memory=cfg.data.pin_memory,
     )
 
-    model = BottleneckResnet18(in_channels=3, out_dim=1000)
+    model = BottleneckResnet50(in_channels=3, out_dim=1000)
 
     pl_module= LightningModule(model=model, cfg=cfg)
 
