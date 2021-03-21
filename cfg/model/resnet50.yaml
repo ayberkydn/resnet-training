@@ -1,0 +1,4 @@
+# @package _group_
+_target_: src.models.resnet50.Resnet50
+in_channels: 3
+out_classes: 10

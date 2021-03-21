@@ -1,0 +1,7 @@
+# @package _group_
+_target_: src.datamodules.cifar10.CIFAR10DataModule
+path: "/home/ayb/Documents/datasets/CIFAR10/"
+download: False
+num_workers_factor: 4
+batch_size: 16
+pin_memory: True

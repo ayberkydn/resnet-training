@@ -1,0 +1,19 @@
+# @package _global_
+defaults:
+  - datamodule: cifar10
+  - model: resnet50
+
+name: bottleneck_training
+project_path: /home/ayb/resnet-training
+
+trainer:
+  gpus: [0]
+
+hparams:
+  lr: 0.01
+  lr_scheduler:
+    factor: 0.5
+    patience: 10
+  batch_size: 128
+  early_stopping_patience: 30
+

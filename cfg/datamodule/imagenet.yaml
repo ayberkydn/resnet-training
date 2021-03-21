@@ -1,0 +1,7 @@
+# @package _group_
+_target_: src.datamodules.imagenet.ImagenetDataModule
+path: "/home/ayb/Documents/datasets/ILSVRC/"
+num_workers_factor: 4
+batch_size: 16
+input_shape: [128, 128]
+pin_memory: True
