@@ -4,7 +4,7 @@ defaults:
   - model: resnet50
 
 name: bottleneck_training
-project_path: /home/ayb/resnet-training
+project_root: /home/ayb/resnet-training
 
 trainer:
   gpus: [0]
