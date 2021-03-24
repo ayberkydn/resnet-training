@@ -58,7 +58,6 @@ def train(cfg):
 
     datamodule = hydra.utils.instantiate(cfg.datamodule)
     model      = hydra.utils.instantiate(cfg.model)
-    import pdb;pdb.set_trace()
 
 
     pl_module = LightningModule(model=model, cfg=cfg)
