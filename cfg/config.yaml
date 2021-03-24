@@ -1,9 +1,9 @@
 # @package _global_
 defaults:
   - datamodule: cifar10
-  - model: resnet50
+  - model: yuvresnet
 
-name: bottleneck_training
+name: yuv_resnet
 project_root: /home/ayb/resnet-training
 
 trainer:
