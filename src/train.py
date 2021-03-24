@@ -34,7 +34,7 @@ def train(cfg):
             patience=cfg.hparams.early_stopping_patience,
         ),
         ModelCheckpoint(
-            dirpath=os.path.join(cfg.project_path, "model-checkpoints"),
+            dirpath=os.path.join(cfg.project_root, "model-checkpoints"),
             filename="epoch{epoch}model",
             monitor="validation_accuracy",
             mode="max",
@@ -42,7 +42,7 @@ def train(cfg):
     ]
 
     logger = TensorBoardLogger(
-        save_dir=os.path.join(cfg.project_path, "logs"),
+        save_dir=os.path.join(cfg.project_root, "logs"),
         name=cfg.name,
     )
 
@@ -58,7 +58,6 @@ def train(cfg):
 
     datamodule = hydra.utils.instantiate(cfg.datamodule)
     model      = hydra.utils.instantiate(cfg.model)
-
 
     pl_module = LightningModule(model=model, cfg=cfg)
 

@@ -1,10 +1,10 @@
 # @package _global_
 defaults:
   - datamodule: cifar10
-  - model: resnet50
+  - model: yuvresnet
 
-name: bottleneck_training
-project_path: /home/ayb/resnet-training
+name: yuv_resnet
+project_root: /home/ayb/resnet-training
 
 trainer:
   gpus: [1]
