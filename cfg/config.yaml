@@ -4,14 +4,13 @@ name: yuv_resnet
 project_root: /home/ayb/resnet-training
 
 trainer:
-  gpus: [0]
+  gpus: [1]
 
 hparams:
   lr: 0.01
   lr_scheduler:
     factor: 0.5
     patience: 10
-  batch_size: 128
   early_stopping_patience: 30
 
 defaults:

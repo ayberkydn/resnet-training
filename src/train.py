@@ -57,7 +57,7 @@ def train(cfg):
     )
 
     datamodule = hydra.utils.instantiate(cfg.datamodule)
-    model = hydra.utils.instantiate(cfg.model)
+    model      = hydra.utils.instantiate(cfg.model)
 
     pl_module = LightningModule(model=model, cfg=cfg)
 
