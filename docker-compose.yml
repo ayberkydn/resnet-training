@@ -8,7 +8,6 @@ services:
       - ~:/home/ayb
     working_dir: ${PWD}
     command: "/bin/bash"
-    runtime: nvidia
 
   language-server:
     image: ayberkydn/deep-learning
