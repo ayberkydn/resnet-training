@@ -8,13 +8,7 @@ services:
       - ~:/home/ayb
     working_dir: ${PWD}
     command: "/bin/bash"
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - driver: nvidia
-            count: 1
-            capabilities: [gpu, utility]
+    runtime: nvidia
 
   language-server:
     image: ayberkydn/deep-learning
