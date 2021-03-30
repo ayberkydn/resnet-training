@@ -1,7 +1,4 @@
 # @package _global_
-defaults:
-  - datamodule: cifar10
-  - model: yuvresnet
 
 name: yuv_resnet
 project_root: /home/ayb/resnet-training
@@ -17,3 +14,8 @@ hparams:
   batch_size: 128
   early_stopping_patience: 30
 
+defaults:
+  - datamodule: imagenet
+  - model: yuvresnet
+  - optimizer: adam
+  - scheduler: cosine

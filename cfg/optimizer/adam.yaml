@@ -1,0 +1,4 @@
+# @package _group_
+_target_: torch.optim.Adam
+in_channels: 3
+out_classes: 10

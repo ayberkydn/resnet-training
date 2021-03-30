@@ -37,6 +37,7 @@ class LightningModule(pl.LightningModule):
         self.log("validation_accuracy", acc, prog_bar=True, logger=True)
 
     def configure_optimizers(self):
+        optimizer = hydra.utils.instantiate(cfg.optimizer)
         optimizer = torch.optim.Adam(self.model.parameters(), lr=self.cfg.hparams.lr)
         scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
             optimizer,
