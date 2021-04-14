@@ -1,0 +1,5 @@
+# @package _group_
+_target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+factor: 0.3
+patience: 10
+verbose: True
