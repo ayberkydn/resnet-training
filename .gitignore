@@ -2,3 +2,5 @@ __pycache__
 .ipynb_checkpoints/
 outputs/
 core
+logs/
+model-checkpoints/
