@@ -39,6 +39,7 @@ def train(cfg):
             filename="epoch{epoch}model",
             monitor="validation_accuracy",
             mode="max",
+            save_weights_only=True,
         ),
     ]
 

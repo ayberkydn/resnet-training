@@ -9,7 +9,7 @@ trainer:
 early_stopping_patience: 30
 
 defaults:
-  - datamodule: imagenet.yaml
+  - datamodule: cifar10.yaml
   - model: yuvresnet.yaml
   - optimizer: adam.yaml
   - scheduler: reducelronplateau.yaml
