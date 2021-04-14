@@ -9,14 +9,14 @@ services:
     working_dir: ${PWD}
     command: "/bin/bash"
 
-  language-server:
+  main:
     image: ayberkydn/deep-learning
     volumes:
       - ~:/home/ayb
     working_dir: ${PWD}
-    command: "jedi-language-server"
+    command: "python main.py"
     stdin_open: true
-    tty: false
+    tty: true
     
 
   notebook:

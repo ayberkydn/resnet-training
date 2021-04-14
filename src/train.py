@@ -14,7 +14,7 @@ import pytorch_lightning as pl
 
 from src.models.bottleneck_resnet50 import BottleneckResnet50
 
-from src.MyLightningModule import LightningModule
+from src.lightningmodules.trainingmodule import TrainingModule
 from src.datamodules.imagenet import ImagenetDataModule
 from src.datamodules.tinyimagenet import TinyImagenetDataModule
 
@@ -26,12 +26,13 @@ from pytorch_lightning.loggers import TensorBoardLogger
 
 def train(cfg):
 
+    pl.seed_everything(1234)
     callbacks = [
         GPUStatsMonitor(),
         EarlyStopping(
             monitor="validation_accuracy",
             mode="max",
-            patience=cfg.hparams.early_stopping_patience,
+            patience=cfg.early_stopping_patience,
         ),
         ModelCheckpoint(
             dirpath=os.path.join(cfg.project_root, "model-checkpoints"),
@@ -57,11 +58,11 @@ def train(cfg):
     )
 
     datamodule = hydra.utils.instantiate(cfg.datamodule)
-    model      = hydra.utils.instantiate(cfg.model)
+    model = hydra.utils.instantiate(cfg.model)
 
-    pl_module = LightningModule(model=model, cfg=cfg)
+    pl_module = TrainingModule(model=model, cfg=cfg)
 
     trainer.fit(
-        pl_module,
-        datamodule,
+        model=pl_module,
+        datamodule=datamodule,
     )
